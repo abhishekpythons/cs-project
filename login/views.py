@@ -7,7 +7,7 @@ def login_form(request):
     return render(request, 'login_page.html')
 
 def fetch_pass(username):
-    conn = mysql.connector.connect(user='root', password='root', database='test')
+    conn = mysql.connector.connect(host="db4free.net:3306", user='abhishek_verma', password='Aavv112233', database='abhi_test')
     cur = conn.cursor()
     cur.execute(f'select password from user_details where username="{username}"')
     data = cur.fetchall()

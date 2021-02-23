@@ -8,7 +8,7 @@ def view_form(request):
     return render(request, 'registration_page.html')
 
 def save(username,password,email,ph_no):
-    conn = mysql.connector.connect(user='root', password='root', database='test')
+    conn = mysql.connector.connect(host="", user='root', password='Aavv112233', database='abhi_test')
     cur = conn.cursor()
     cur.execute(f'insert into user_details(username, password, email, ph_no) values("{username}","{password}","{email}","{ph_no}")')
     conn.commit()
