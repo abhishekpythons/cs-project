@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 import mysql.connector
 
@@ -13,6 +12,15 @@ def save(username,password,email,ph_no):
     cur.execute(f'insert into user_details(username, password, email, ph_no) values("{username}","{password}","{email}","{ph_no}")')
     conn.commit()
 
+def get_emails():
+    conn = mysql.connector.connect(host="sql12.freemysqlhosting.net", user='sql12394795', password='u4Z2pxHSqk', database='sql12394795')
+    cur = conn.cursor()
+    cur.execute(f'select email from user_details')
+    data = cur.fetchall()
+    print(data)
+    data = [i[0] for i in data]
+    return data
+
 
 @csrf_exempt
 def read_form(request):
@@ -21,10 +29,14 @@ def read_form(request):
     email = request.POST['email']
     ph_no = request.POST['ph_no']
     if username == '':
-        return HttpResponse('username is empty')
+        return HttpResponse('<h1 style="color:red"> username is empty </h1>')
     elif email == '':
-        return HttpResponse('email is empty')
+        return HttpResponse('<h1 style="color:red"> email is empty </h1>')
     else:
-        save(username, pwd, email, ph_no)
-        messages.success(request, 'successfully registered !')
-        return render(request, 'index.html')
+        if email not in get_emails():
+            save(username, pwd, email, ph_no)
+            messages = {'type': 'success', 'color': 'purple', 'message': 'registered successfully',}
+            return render(request, 'login_page.html', messages)
+        else:
+            messages = {'type': 'error', 'color': 'red', 'message': 'email already exists', 'page': 'registration'}
+            return render(request, 'registration_page.html', messages)
