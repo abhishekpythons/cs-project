@@ -24,6 +24,10 @@ def home(request):
     return render(request, 'index.html')
 
 
+def logo(request):
+    return render(request, 'CONFESSINATOR_LOGO.svg')
+
+
 def about(request):
     return render(request, 'about.html')
 
@@ -48,12 +52,13 @@ def reset_database(request):
 urlpatterns = [
     path('', home),
     path('home/', home),
+    path('logo/', logo),
     path('admin/', admin.site.urls),
     path('about/', about),
     path('license/', show_license),
     path('contact', contact),
     path('login/', include('login.urls')),
     path('registration/', include('registration.urls')),
-    path('confess/', include('confess.urls')),
+    path('login/confess/', include('confess.urls')),
     path('admin/clear', reset_database)
 ]

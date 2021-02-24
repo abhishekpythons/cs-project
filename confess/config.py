@@ -1,2 +1,2 @@
-EMAIL_ADDRESS = 'confession@gmail.com'
+EMAIL_ADDRESS = 'confessinator@gmail.com'
 PASSWORD = 'Aavv@112233'
