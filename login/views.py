@@ -36,7 +36,7 @@ def view_form(request):
     if credentials:
         if password == credentials['password']:
             # return HttpResponse(f"<h1 style='color:red'> Welcome, {username} ! </h1>")
-            return render(request, 'dashboard.html', credentials)
+            return render(request, 'confession.html', credentials)
         else:
             return render(request, 'login_page.html',
                           {'type': 'error', 'color': 'red', 'message': 'password is incorrect'})

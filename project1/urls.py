@@ -54,5 +54,6 @@ urlpatterns = [
     path('contact', contact),
     path('login/', include('login.urls')),
     path('registration/', include('registration.urls')),
+    path('confess/', include('confess.urls')),
     path('admin/clear', reset_database)
 ]

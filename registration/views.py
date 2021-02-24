@@ -26,17 +26,22 @@ def get_emails():
 def read_form(request):
     username = request.POST['username']
     pwd = request.POST['password']
+    confirm_pwd = request.POST['confirm_password']
     email = request.POST['email']
     ph_no = request.POST['ph_no']
     if username == '':
-        return HttpResponse('<h1 style="color:red"> username is empty </h1>')
+        messages = {'type': 'error', 'color': 'red', 'message': 'username is empty'}
+        return render(request, 'registration_page.html', messages)
     elif email == '':
-        return HttpResponse('<h1 style="color:red"> email is empty </h1>')
+        messages = {'type': 'error', 'color': 'red', 'message': 'email is empty'}
+        return render(request, 'registration_page.html', messages)
+    elif pwd != confirm_pwd:
+        messages = {'type': 'error', 'color': 'red', 'message': 'confirm email not matched'}
+        return render(request, 'registration_page.html', messages)
+    elif email in get_emails():
+        messages = {'type': 'error', 'color': 'red', 'message': 'email already exists', 'page': 'registration'}
+        return render(request, 'registration_page.html', messages)
     else:
-        if email not in get_emails():
-            save(username, pwd, email, ph_no)
-            messages = {'type': 'success', 'color': 'purple', 'message': 'registered successfully',}
-            return render(request, 'login_page.html', messages)
-        else:
-            messages = {'type': 'error', 'color': 'red', 'message': 'email already exists', 'page': 'registration'}
-            return render(request, 'registration_page.html', messages)
+        save(username, pwd, email, ph_no)
+        messages = {'type': 'success', 'color': 'purple', 'message': 'registered successfully',}
+        return render(request, 'login_page.html', messages)
